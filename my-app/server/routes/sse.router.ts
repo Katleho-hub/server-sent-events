@@ -1,4 +1,4 @@
-import { Context, Hono, } from "hono";
+import { Hono, } from "hono";
 import { streamSSE } from 'hono/streaming'
 
 const sseRouter = new Hono();
@@ -7,7 +7,7 @@ let id = 0;
 sseRouter.get('/', async (c) => {
     c.header('Content-Type', 'text/event-stream');
     return streamSSE(c, async (stream) => {
-        const test = JSON.parse(JSON.stringify((c.req.raw.headers as any)))?.['last-event-id'];
+        const test = JSON.parse(JSON.stringify((c.req.raw.headers)))?.['last-event-id'];
       while (true) {
 
         if (!id && test) id = test;
