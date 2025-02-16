@@ -1,5 +1,4 @@
 import { Hono } from "hono";
-import { HTTPException } from "hono/http-exception";
 import bcrypt from 'bcrypt';
 import { nanoid } from "nanoid";
 import { createUser, getUserByUsername } from "db/queries/user.queries.js";

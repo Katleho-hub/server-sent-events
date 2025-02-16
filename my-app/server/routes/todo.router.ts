@@ -6,7 +6,7 @@ import { nanoid } from "nanoid";
 const todosRouter = new Hono();
 const defaultUserId = 'a-0S46G9RvsrrvhMNc80b';
 
-// Create todo
+// Create todos
 todosRouter.post('/', async ({req, json}) => {
     const { title } = await req.parseBody<any>();
   
@@ -44,7 +44,7 @@ todosRouter.get('/', ({req, json}) => {
       }))}, 200);
   });
 
-// Update todo  
+// Update todos  
 todosRouter.patch('/:id', async ({req, json}) => {
     const { checked } = await req.parseBody();
     const todoId = req.param('id')
