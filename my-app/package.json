@@ -1,0 +1,21 @@
+{
+  "name": "my-app",
+  "type": "module",
+  "scripts": {
+    "dev": "bun run --watch src/index.ts"
+  },
+  "dependencies": {
+    "bcrypt": "^5.1.1",
+    "eventsource": "^3.0.5",
+    "hono": "^4.7.1",
+    "nanoid": "^5.1.0"
+  },
+  "devDependencies": {
+    "@types/bcrypt": "^5.0.2",
+    "@types/bun": "^1.2.2"
+  },
+  "module": "index.ts",
+  "peerDependencies": {
+    "typescript": "^5.0.0"
+  }
+}
