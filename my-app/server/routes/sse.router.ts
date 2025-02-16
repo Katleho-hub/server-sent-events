@@ -1,14 +1,8 @@
 import { Context, Hono, } from "hono";
 import { streamSSE } from 'hono/streaming'
-import { BlankEnv, BlankInput } from "hono/types";
 
 const sseRouter = new Hono();
 let id = 0;
-
-// setInterval(() => {
-//     id = 0;
-// }, 11_000)
-
 
 sseRouter.get('/', async (c) => {
     c.header('Content-Type', 'text/event-stream');
