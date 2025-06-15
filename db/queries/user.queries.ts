@@ -5,17 +5,13 @@ const createUser = db.prepare(`
     VALUES (?, ?, ?, ?)
     RETURNING user_id, username, created_at
 `);
-  
+
 const getUserByUsername = db.prepare(`
     SELECT * FROM users WHERE username = ?
 `);
-  
+
 const getUserById = db.prepare(`
     SELECT * FROM users WHERE user_id = ?
 `);
 
-export {
-    createUser,
-    getUserById,
-    getUserByUsername
-}
+export { createUser, getUserById, getUserByUsername };

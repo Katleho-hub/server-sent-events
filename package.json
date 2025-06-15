@@ -1,21 +1,29 @@
 {
-  "name": "my-app",
-  "type": "module",
-  "scripts": {
-    "dev": "bun run --watch src/index.ts"
-  },
-  "dependencies": {
-    "bcrypt": "^5.1.1",
-    "eventsource": "^3.0.5",
-    "hono": "^4.7.1",
-    "nanoid": "^5.1.0"
-  },
-  "devDependencies": {
-    "@types/bcrypt": "^5.0.2",
-    "@types/bun": "^1.2.2"
-  },
-  "module": "index.ts",
-  "peerDependencies": {
-    "typescript": "^5.0.0"
-  }
+	"name": "order-up",
+	"type": "module",
+	"scripts": {
+		"dev": "bun run --watch src/index.ts",
+		"format": "bunx biome format --write",
+		"lint": "bunx biome lint --write",
+		"check": "bunx biome check --write",
+		"db:generate-types": "bunx supabase gen types typescript --project-id 'lhegewixvhmxeuicbfah' --schema public > db/supabase/database.types.ts"
+	},
+	"dependencies": {
+		"@supabase/supabase-js": "^2.49.4",
+		"bcrypt": "^5.1.1",
+		"eventsource": "^3.0.5",
+		"hono": "^4.7.1",
+		"nanoid": "^5.1.0",
+		"zod": "^3.25.64"
+	},
+	"devDependencies": {
+		"@biomejs/biome": "1.9.4",
+		"@types/bcrypt": "^5.0.2",
+		"@types/bun": "^1.2.2",
+		"supabase": ">=1.8.1"
+	},
+	"module": "index.ts",
+	"peerDependencies": {
+		"typescript": "^5.0.0"
+	}
 }

@@ -1,4 +1,4 @@
-import { Database } from "bun:sqlite"
+import { Database } from "bun:sqlite";
 
 // {import.meta.dirname} https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/import.meta
 const db = new Database(`${import.meta.dirname}/todo.sqlite`, { create: true });
@@ -23,6 +23,5 @@ CREATE TABLE IF NOT EXISTS todos (
 `;
 
 db.exec(initDB);
-
 
 export default db;

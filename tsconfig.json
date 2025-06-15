@@ -1,17 +1,13 @@
 {
-  "compilerOptions": {
-    "strict": true,
-    "jsx": "react-jsx",
-    "jsxImportSource": "hono/jsx",
-    "module": "NodeNext",
-    "paths": {
-      "db/*": ["./db/*"],
-      "server/*": ["./server/*"],
-    },
-    "typeRoots": [
-      "./node_modules/@types/",
-    ],
-    
-  }
-  
+	"compilerOptions": {
+		"strict": true,
+		"jsx": "react-jsx",
+		"jsxImportSource": "hono/jsx",
+		"module": "NodeNext",
+		"paths": {
+			"db/*": ["./db/*"],
+			"server/*": ["./server/*"]
+		},
+		"typeRoots": ["./node_modules/@types/"]
+	}
 }
