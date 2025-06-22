@@ -1,4 +1,4 @@
-import { SupabaseError } from "db/supabase/error.class.js";
+import { SupabaseError } from "db/error.class.js";
 
 export function handleError<
 	T extends (arg0: unknown, arg1: number) => ReturnType<T>,

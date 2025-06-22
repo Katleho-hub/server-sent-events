@@ -1,4 +1,4 @@
-import type { Todo } from "db/supabase/queries/todo.queries.js";
+import type { Todo } from "db/queries/todo.queries.js";
 import z from "zod";
 
 const status = [

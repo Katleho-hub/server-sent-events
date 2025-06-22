@@ -1,4 +1,4 @@
-import { QueryData, SupabaseClient, createClient } from "@supabase/supabase-js";
+import { createClient } from "@supabase/supabase-js";
 import type { Database } from "./database.types.js";
 
 // Create a single supabase client for interacting with your database

@@ -4,7 +4,7 @@ import {
 	getAllTodos,
 	getTodoById,
 	updateTodo,
-} from "db/supabase/queries/todo.queries.js";
+} from "db/queries/todo.queries.js";
 import { Hono } from "hono";
 import { nanoid } from "nanoid";
 import { todoUpdateSchema } from "server/validation/todo.validation.js";

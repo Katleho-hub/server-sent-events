@@ -12,6 +12,6 @@
 		"skipLibCheck": true,
 		"forceConsistentCasingInFileNames": true
 	},
-	 "include": ["index.ts", "src", "server", "db"],
+	 "include": ["index.ts", "src", "server", "db", "supabase"],
   "exclude": ["node_modules"]
 }
