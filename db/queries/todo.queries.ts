@@ -1,6 +1,6 @@
 import type { Tables } from "../database.types.js";
 import { SupabaseError } from "../error.class.js";
-import supabaseClient from "../db.js";
+import supabaseClient from "../index.js";
 
 const todos = supabaseClient.from("todos");
 export type Todo = Tables<"todos">;
