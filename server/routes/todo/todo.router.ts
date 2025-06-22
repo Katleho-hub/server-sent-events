@@ -1,5 +1,5 @@
 import {
-	createTodo2,
+	createTodo,
 	deleteTodo,
 	getAllTodos,
 	getTodoById,
@@ -19,7 +19,7 @@ todosRouter.post("/", async ({ req, json }) => {
 
 	if (!title) return json({ error: "Missing Todo Title" }, 400);
 	try {
-		const todo = await createTodo2(title, nanoid());
+		const todo = await createTodo(title, nanoid());
 		return json(formatTodo(todo.data), 201);
 	} catch (error: unknown) {
 		return handleError(json, error);
@@ -52,14 +52,14 @@ todosRouter.get("/:id", async ({ req, json }) => {
 
 /*------------------Update todo----------------------*/
 todosRouter.patch("/:id", async ({ req, json }) => {
-	const public_id = req.param("id");
+	const todoId = req.param("id");
 
-	if (!public_id) return json({ error: "Missing Todo id" }, 400);
+	if (!todoId) return json({ error: "Missing Todo id" }, 400);
 
 	try {
 		const body = todoUpdateSchema.parse({
 			...(await req.parseBody()),
-			public_id,
+			public_id: todoId,
 		});
 		await updateTodo(body);
 		return json({ message: "Successfully updated todo" }, 200);

@@ -8,6 +8,10 @@
 			"db/*": ["./db/*"],
 			"server/*": ["./server/*"]
 		},
-		"typeRoots": ["./node_modules/@types/"]
-	}
+		"typeRoots": ["./node_modules/@types/"],
+		"skipLibCheck": true,
+		"forceConsistentCasingInFileNames": true
+	},
+	 "include": ["index.ts", "src", "server", "db"],
+  "exclude": ["node_modules"]
 }

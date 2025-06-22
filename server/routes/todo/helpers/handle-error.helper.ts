@@ -1,7 +1,8 @@
 import { SupabaseError } from "db/supabase/error.class.js";
 
-// biome-ignore lint/suspicious/noExplicitAny: <explanation>
-export function handleError(json: any, error: unknown) {
+export function handleError<
+	T extends (arg0: unknown, arg1: number) => ReturnType<T>,
+>(json: T, error: unknown): ReturnType<T> {
 	if (error instanceof SupabaseError) {
 		return json(error, error.status);
 	}

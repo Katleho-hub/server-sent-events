@@ -5,8 +5,8 @@ import supabaseClient from "../my-db.js";
 const todos = supabaseClient.from("todos");
 export type Todo = Tables<"todos">;
 
-// Create
-async function createTodo2(
+/*------------------Create todo----------------------*/
+async function createTodo(
 	task: Todo["task"],
 	public_id: Todo["public_id"],
 ): Promise<{ data: Todo; status: number }> {
@@ -27,7 +27,7 @@ async function createTodo2(
 	);
 }
 
-// Read
+/*------------------Get todos----------------------*/
 async function getAllTodos(): Promise<{ data: Todo[]; status: number }> {
 	const { data, error, status } = await todos.select();
 
@@ -42,6 +42,7 @@ async function getAllTodos(): Promise<{ data: Todo[]; status: number }> {
 	);
 }
 
+/*------------------Get single todo----------------------*/
 async function getTodoById(
 	id: Todo["public_id"],
 ): Promise<{ data: Todo[]; status: number }> {
@@ -58,7 +59,7 @@ async function getTodoById(
 	);
 }
 
-// Update
+/*------------------Update todo----------------------*/
 async function updateTodo({
 	public_id,
 	...rest
@@ -78,7 +79,7 @@ async function updateTodo({
 	);
 }
 
-//Delete
+/*------------------Delete todo----------------------*/
 async function deleteTodo(id: Todo["public_id"]): Promise<{ status: number }> {
 	const { error, status } = await todos.delete().eq("public_id", id);
 
@@ -93,4 +94,4 @@ async function deleteTodo(id: Todo["public_id"]): Promise<{ status: number }> {
 	);
 }
 
-export { createTodo2, getAllTodos, getTodoById, updateTodo, deleteTodo };
+export { createTodo, getAllTodos, getTodoById, updateTodo, deleteTodo };

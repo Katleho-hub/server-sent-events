@@ -6,6 +6,7 @@
 		"format": "bunx biome format --write",
 		"lint": "bunx biome lint --write",
 		"check": "bunx biome check --write",
+		"type-check": "bunx tsc --noEmit",
 		"db:generate-types": "bunx supabase gen types typescript --project-id 'lhegewixvhmxeuicbfah' --schema public > db/supabase/database.types.ts"
 	},
 	"dependencies": {
