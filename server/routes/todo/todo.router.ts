@@ -13,73 +13,58 @@ import { handleError } from "./helpers/handle-error.helper.js";
 
 const todosRouter = new Hono();
 
+todosRouter.onError((err, c) => {
+	return handleError(c.json, err);
+});
+
 /*------------------Create todo----------------------*/
 todosRouter.post("/", async ({ req, json }) => {
 	const { title } = await req.parseBody<{ title?: string }>();
 
 	if (!title) return json({ error: "Missing Todo Title" }, 400);
-	try {
-		const todo = await createTodo(title, nanoid());
-		return json(formatTodo(todo.data), 201);
-	} catch (error: unknown) {
-		return handleError(json, error);
-	}
+
+	const todo = await createTodo(title, nanoid());
+
+	return json(formatTodo(todo.data), 201);
 });
 
 /*------------------Get todos----------------------*/
 todosRouter.get("/", async ({ req, json }) => {
-	try {
-		const todos = await getAllTodos();
-		return json({ todos: todos.data.map((todo) => formatTodo(todo)) }, 200);
-	} catch (error: unknown) {
-		return handleError(json, error);
-	}
+	const todos = await getAllTodos();
+
+	return json({ todos: todos.data.map((todo) => formatTodo(todo)) }, 200);
 });
 
 /*------------------Get single todo----------------------*/
 todosRouter.get("/:id", async ({ req, json }) => {
 	const todoId = req.param("id");
 
-	if (!todoId) return json({ error: "Missing Todo id" }, 400);
+	const todos = await getTodoById(todoId);
 
-	try {
-		const todos = await getTodoById(todoId);
-		return json({ todos: todos.data.map((todo) => formatTodo(todo)) }, 200);
-	} catch (error: unknown) {
-		return handleError(json, error);
-	}
+	return json({ todos: todos.data.map((todo) => formatTodo(todo)) }, 200);
 });
 
 /*------------------Update todo----------------------*/
 todosRouter.patch("/:id", async ({ req, json }) => {
 	const todoId = req.param("id");
 
-	if (!todoId) return json({ error: "Missing Todo id" }, 400);
+	const body = todoUpdateSchema.parse({
+		...(await req.parseBody()),
+		public_id: todoId,
+	});
 
-	try {
-		const body = todoUpdateSchema.parse({
-			...(await req.parseBody()),
-			public_id: todoId,
-		});
-		await updateTodo(body);
-		return json({ message: "Successfully updated todo" }, 200);
-	} catch (error: unknown) {
-		return handleError(json, error);
-	}
+	await updateTodo(body);
+
+	return json({ message: "Successfully updated todo" }, 200);
 });
 
 /*------------------Delete todo----------------------*/
 todosRouter.delete("/:id", async ({ req, json }) => {
 	const todoId = req.param("id");
 
-	if (!todoId) return json({ error: "Missing Todo id" }, 400);
+	await deleteTodo(todoId);
 
-	try {
-		await deleteTodo(todoId);
-		return json({ message: "Todo successfully deleted!" }, 200);
-	} catch (error: unknown) {
-		return handleError(json, error);
-	}
+	return json({ message: "Todo successfully deleted!" }, 200);
 });
 
 export default todosRouter;
