@@ -1,6 +1,6 @@
-import { SupabaseError } from "db/error.class.js";
+import { SupabaseError } from "db/supabase-error.class.js";
 import type { HTTPResponseError } from "hono/types";
-import { ZodError } from "zod/v4";
+import { ZodError } from "zod/v3";
 
 export function handleError<
 	T extends (arg0: unknown, arg1: number) => ReturnType<T>,
@@ -12,15 +12,9 @@ export function handleError<
 		return json(error, error.status);
 	}
 
-	if (isZodError(error)) {
+	if (error instanceof ZodError) {
 		return json(error, 400);
 	}
 
 	return json(error, 500);
-}
-
-function isZodError(err: unknown): err is ZodError {
-	return Boolean(
-		err && (err instanceof ZodError || (err as ZodError).name === "ZodError"),
-	);
 }
