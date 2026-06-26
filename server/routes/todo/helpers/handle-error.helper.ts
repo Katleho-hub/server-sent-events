@@ -1,15 +1,14 @@
 import { SupabaseError } from "db/supabase-error.class.js";
+import type { Context } from "hono";
 import type { HTTPResponseError } from "hono/types";
-import { ZodError } from "zod/v3";
+import type { ContentfulStatusCode } from "hono/utils/http-status";
+import { ZodError } from "zod";
 
-export function handleError<
-	T extends (arg0: unknown, arg1: number) => ReturnType<T>,
->(
-	json: T,
-	error: Error | HTTPResponseError | ZodError | SupabaseError,
-): ReturnType<T> {
+type SupportedError = Error | HTTPResponseError | ZodError | SupabaseError;
+
+export function handleError({ json }: Context, error: SupportedError) {
 	if (error instanceof SupabaseError) {
-		return json(error, error.status);
+		return json(error, (error.status || 500) as ContentfulStatusCode);
 	}
 
 	if (error instanceof ZodError) {

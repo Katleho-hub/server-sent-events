@@ -17,7 +17,7 @@ app.onError((err, c) => {
 });
 
 app.get("/", (c) => {
-	return c.text("Hello Hontheo");
+	return c.text("KatlehoMotloung.com");
 });
 
 app.route("/todo", todosRouter);

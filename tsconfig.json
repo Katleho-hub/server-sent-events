@@ -10,8 +10,9 @@
 		},
 		"typeRoots": ["./node_modules/@types/"],
 		"skipLibCheck": true,
-		"forceConsistentCasingInFileNames": true
+		"forceConsistentCasingInFileNames": true,
+		"types": ["bun"]
 	},
-	 "include": ["index.ts", "src", "server", "db", "supabase"],
-  "exclude": ["node_modules"]
+	"include": ["index.ts", "src", "server", "db", "supabase"],
+	"exclude": ["node_modules"]
 }

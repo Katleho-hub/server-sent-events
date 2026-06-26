@@ -10,11 +10,12 @@ import { nanoid } from "nanoid";
 import { todoUpdateSchema } from "server/validation/todo.validation.js";
 import { formatTodo } from "./helpers/format-todo.helper.js";
 import { handleError } from "./helpers/handle-error.helper.js";
+import { ContentfulStatusCode } from "hono/utils/http-status";
 
 const todosRouter = new Hono();
 
 todosRouter.onError((err, c) => {
-	return handleError(c.json, err);
+	return handleError(c, err);
 });
 
 /*------------------Create todo----------------------*/
@@ -53,9 +54,12 @@ todosRouter.patch("/:id", async ({ req, json }) => {
 		public_id: todoId,
 	});
 
-	await updateTodo(body);
+	const { status } = await updateTodo(body);
 
-	return json({ message: "Successfully updated todo" }, 200);
+	return json(
+		{ message: "Successfully updated todo" },
+		status as ContentfulStatusCode,
+	);
 });
 
 /*------------------Delete todo----------------------*/

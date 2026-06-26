@@ -20,7 +20,6 @@ sseRouter.get("/", async (c) => {
 				id: String(id++),
 			});
 
-			// @ts-ignore
 			await stream.sleep(20_000);
 		}
 	});
