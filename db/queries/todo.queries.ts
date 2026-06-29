@@ -1,6 +1,6 @@
 import type { Tables } from "../database.types.js";
-import { SupabaseError } from "../supabase-error.class.js";
 import supabaseClient from "../index.js";
+import { SupabaseError } from "../supabase-error.class.js";
 
 const todos = supabaseClient.from("todos");
 export type Todo = Tables<"todos">;
@@ -94,4 +94,4 @@ async function deleteTodo(id: Todo["public_id"]): Promise<{ status: number }> {
 	);
 }
 
-export { createTodo, getAllTodos, getTodoById, updateTodo, deleteTodo };
+export { createTodo, deleteTodo, getAllTodos, getTodoById, updateTodo };
