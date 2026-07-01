@@ -8,6 +8,7 @@
 		"lint": "bunx biome lint --write",
 		"check": "bunx biome check --write",
 		"type-check": "bunx tsc --noEmit",
+		"emulator": "firebase emulators:start",
 		"db:generate-types": "bunx supabase gen types typescript --project-id 'pgqqihxvfsgendocqmeo' --schema public > db/database.types.ts"
 	},
 	"dependencies": {

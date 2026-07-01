@@ -1,18 +1,41 @@
 {
 	"compilerOptions": {
-		"strict": true,
+		// Environment setup & latest features
+		"lib": ["ESNext"],
+		"target": "ESNext",
+		"module": "Preserve",
+		"moduleDetection": "force",
 		"jsx": "react-jsx",
 		"jsxImportSource": "hono/jsx",
-		"module": "NodeNext",
+		"allowJs": true,
+		"types": ["bun"],
+		"typeRoots": ["./node_modules/@types/"],
+
+		// Bundler mode
+		"moduleResolution": "bundler",
+		"allowImportingTsExtensions": true,
+		"verbatimModuleSyntax": true,
+		"noEmit": true,
+
+		// Aliases / Paths
 		"paths": {
 			"db/*": ["./db/*"],
 			"server/*": ["./server/*"]
 		},
-		"typeRoots": ["./node_modules/@types/"],
+
+		// Best practices & Strictness
+		"strict": true,
 		"skipLibCheck": true,
 		"forceConsistentCasingInFileNames": true,
-		"types": ["bun"]
+		"noFallthroughCasesInSwitch": true,
+		"noUncheckedIndexedAccess": true,
+		"noImplicitOverride": true,
+
+		// Disabled stricter flags
+		"noUnusedLocals": false,
+		"noUnusedParameters": false,
+		"noPropertyAccessFromIndexSignature": false
 	},
-	"include": ["index.ts", "src", "server", "db", "supabase"],
+	"include": ["index.ts", "src", "server", "db", "supabase", "firebase"],
 	"exclude": ["node_modules"]
 }
