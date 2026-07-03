@@ -17,6 +17,7 @@
 		"bcrypt": "^6.0.0",
 		"eventsource": "^4.0.1",
 		"firebase": "^12.15.0",
+		"firebase-admin": "^14.1.0",
 		"hono": "^4.12.27",
 		"nanoid": "^5.1.16",
 		"zod": "^4.4.3"
