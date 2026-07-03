@@ -1,6 +1,7 @@
 import type {
 	DocumentData,
 	Firestore,
+	QueryDocumentSnapshot,
 	UpdateData,
 	WithFieldValue,
 } from "firebase-admin/firestore";
@@ -83,13 +84,11 @@ export async function getDocument(
 export async function getAllCollectionDocuments(
 	db: Firestore,
 	collection: string,
-	callback?: (
-		doc: FirebaseFirestore.QueryDocumentSnapshot<FirebaseFirestore.DocumentData>,
-	) => unknown,
+	callback?: (doc: QueryDocumentSnapshot<DocumentData>) => unknown,
 	orderBy?: string,
 ) {
 	try {
-		const data: FirebaseFirestore.DocumentData[] = [];
+		const data: DocumentData[] = [];
 
 		const collectionRef =
 			orderBy === undefined
