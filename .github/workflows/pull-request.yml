@@ -21,4 +21,5 @@ jobs:
         run: bun install
       - name: Run code quality checks
         run: bun ci:check
+      - name: Run type checking
         run: bun type-check
