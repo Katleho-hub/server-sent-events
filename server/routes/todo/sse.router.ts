@@ -75,7 +75,7 @@ sseRouter.patch("/:id", async (c) => {
 					data: JSON.stringify(payload, null, 12),
 				});
 			}
-		} catch (error) {
+		} catch (_error) {
 			clients.delete(client);
 		}
 	});

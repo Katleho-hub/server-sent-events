@@ -1,4 +1,9 @@
-import type { Firestore } from "firebase-admin/firestore";
+import type {
+	DocumentData,
+	Firestore,
+	UpdateData,
+	WithFieldValue,
+} from "firebase-admin/firestore";
 
 /**
  * ==========================================
@@ -13,9 +18,13 @@ import type { Firestore } from "firebase-admin/firestore";
  * @param data - The payload to be saved in the document.
  * @returns A promise that resolves to a DocumentReference pointing to the newly created document.
  */
-export function createDocument(db: Firestore, collection: string, data: any) {
+export function createDocument(
+	db: Firestore,
+	collection: string,
+	data: unknown,
+) {
 	const collectionRef = db.collection(collection);
-	return collectionRef.add(data);
+	return collectionRef.add(data as WithFieldValue<DocumentData>);
 }
 
 /**
@@ -31,10 +40,10 @@ export function createDocumentWithCustomID(
 	db: Firestore,
 	collection: string,
 	documentID: string,
-	data: any,
+	data: unknown,
 ) {
 	const docRef = db.collection(collection).doc(documentID);
-	return docRef.create(data);
+	return docRef.create(data as WithFieldValue<DocumentData>);
 }
 
 /**
@@ -76,7 +85,7 @@ export async function getAllCollectionDocuments(
 	collection: string,
 	callback?: (
 		doc: FirebaseFirestore.QueryDocumentSnapshot<FirebaseFirestore.DocumentData>,
-	) => u,
+	) => unknown,
 	orderBy?: string,
 ) {
 	try {
@@ -90,7 +99,7 @@ export async function getAllCollectionDocuments(
 		const querySnap = await collectionRef.get();
 		querySnap.forEach((doc) => {
 			if (callback) {
-				data.push(callback(doc));
+				data.push(callback(doc) as DocumentData);
 			} else {
 				data.push({
 					...doc.data(),
@@ -125,11 +134,11 @@ export async function updateDocument(
 	db: Firestore,
 	collection: string,
 	documentID: string,
-	data: any,
+	data: unknown,
 ) {
 	const docRef = db.collection(collection).doc(documentID);
 
-	return docRef.update(data);
+	return docRef.update(data as UpdateData<DocumentData>);
 }
 
 /**
