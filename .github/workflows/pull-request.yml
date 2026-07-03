@@ -15,7 +15,7 @@ jobs:
         with:
           persist-credentials: false
       - name: Setup Bun
-        uses: oven-sh/setup-bun@v2
+        uses: oven-sh/setup-bun@2b176a6e02983d9ed668db3c687439eb49fe611a
         with:
           bun-version: latest
       - name: Install dependencies
