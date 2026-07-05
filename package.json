@@ -9,7 +9,7 @@
 		"check": "biome check --write",
 		"ci:check": "biome ci . --error-on-warnings",
 		"type-check": "tsc --noEmit",
-		"emulator": "firebase emulators:start",
+		"emulator": "firebase emulators:start --import firebase-data --export-on-exit",
 		"db:generate-types": "supabase gen types typescript --project-id 'pgqqihxvfsgendocqmeo' --schema public > db/database.types.ts"
 	},
 	"dependencies": {
