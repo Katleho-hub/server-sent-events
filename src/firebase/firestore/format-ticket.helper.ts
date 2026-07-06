@@ -1,0 +1,9 @@
+import type { Ticket } from "./types/tickets.types";
+
+export function formatTicket(ticket: Ticket) {
+	return {
+		status: ticket.status,
+		ticketId: ticket.ticketId,
+		createdAt: ticket.createdAt.toDate(),
+	};
+}

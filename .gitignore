@@ -1,2 +1,8 @@
 # deps
 node_modules/
+
+.env
+
+# firebase
+firestore-debug.log
+firebase-debug.log
