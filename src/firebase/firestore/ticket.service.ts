@@ -1,7 +1,5 @@
-import type { ServiceAccount } from "firebase-admin";
 import * as admin from "firebase-admin";
 import { getFirestore } from "firebase-admin/firestore";
-import serviceAccount from "../../serviceAccount.json";
 import {
 	createTicket,
 	deleteTicket,
@@ -16,7 +14,11 @@ import {
 } from "./types/tickets.types";
 
 const app = admin.initializeApp({
-	credential: admin.cert(serviceAccount as ServiceAccount),
+	credential: admin.cert({
+		projectId: Bun.env.ADMIN_FIREBASE_PROJECT_ID,
+		clientEmail: Bun.env.ADMIN_FIREBASE_CLIENT_EMAIL,
+		privateKey: Bun.env.ADMIN_FIREBASE_PRIVATE_KEY,
+	}),
 });
 
 export const db = getFirestore(app);
