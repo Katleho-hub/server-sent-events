@@ -1,40 +1,30 @@
-import * as admin from "firebase-admin";
-import { cert } from "firebase-admin";
 import { type Firestore, Timestamp } from "firebase-admin/firestore";
-import type {
-	NewTicket,
-	NewTicketData,
-	Ticket,
-} from "../../types/tickets.types";
 import {
 	createDocumentWithCustomID,
 	deleteDocument,
 	getAllCollectionDocuments,
 	getDocument,
 	updateDocument,
-} from "../../utils/document.utils";
+} from "../../document.utils";
+import type {
+	NewTicket,
+	Ticket,
+	UpdateTicketPayload,
+} from "../../types/tickets.types";
 
 const COLLECTION = "tickets";
 
-admin.initializeApp({
-	credential: cert({
-		projectId: process.env.PROJECT_ID,
-		clientEmail: process.env.CLIENT_EMAIL,
-		privateKey: process.env.PRIVATE_KEY,
-	}),
-});
-
 /*------------------Create ticket----------------------*/
-async function createTicket(db: Firestore, data: NewTicketData) {
+async function createTicket(db: Firestore, data: NewTicket) {
 	if (data?.ticketId === undefined || data?.ticketNumber === undefined) {
 		throw new Error("Invalid data: ticketId and ticketNumber are required.");
 	}
 
 	try {
-		const newTicket: NewTicket = {
+		const newTicket: Ticket = {
 			ticketId: data.ticketId,
 			ticketNumber: data.ticketNumber,
-			createdAt: Timestamp.now(),
+			createdAt: new Date().toISOString(),
 			status: "preparing",
 		};
 
@@ -83,7 +73,7 @@ async function getTicket(db: Firestore, documentID: string) {
 async function updateTicket(
 	db: Firestore,
 	documentID: string,
-	data: Partial<Ticket>,
+	data: UpdateTicketPayload,
 ) {
 	try {
 		const ticket = {

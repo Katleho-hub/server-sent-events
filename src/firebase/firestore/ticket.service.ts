@@ -1,26 +1,39 @@
-import { nanoid } from "nanoid";
-import { todoUpdateSchema } from "server/validation/todo.validation.js";
+import type { ServiceAccount } from "firebase-admin";
+import * as admin from "firebase-admin";
+import { getFirestore } from "firebase-admin/firestore";
+import serviceAccount from "../../serviceAccount.json";
 import {
 	createTicket,
 	deleteTicket,
 	getAllTickets,
+	getTicket,
 	updateTicket,
 } from "./collections/tickets/tickets.collections";
 import { formatTicket } from "./format-ticket.helper";
+import {
+	type NewTicketPayload,
+	updateTicketSchema,
+} from "./types/tickets.types";
 
-export const createNewTodo = async (title?: string) => {
-	if (!title) throw new Error("Missing Todo Title");
-	const ticket = await createTicket(title, nanoid());
-	return formatTicket(ticket.data);
+const app = admin.initializeApp({
+	credential: admin.cert(serviceAccount as ServiceAccount),
+});
+
+export const db = getFirestore(app);
+
+export const createNewTicket = async (data?: NewTicketPayload) => {
+	if (!data) throw new Error("Missing Todo Title");
+	const ticket = await createTicket(db, data);
+	return ticket;
 };
 
 export const fetchAllTickets = async () => {
-	const tickets = await getAllTickets();
-	return tickets.data.map(formatTicket);
+	const tickets = await getAllTickets(db);
+	return tickets;
 };
 
 export const fetchTicketById = async (id: string) => {
-	const tickets = await getTicketById(id);
+	const tickets = await getTicket(db, id);
 	return tickets.data.map(formatTicket);
 };
 
@@ -28,16 +41,13 @@ export const modifyTicket = async (
 	id: string,
 	updateData: Record<string, unknown>,
 ) => {
-	const body = todoUpdateSchema.parse({
-		...updateData,
-		public_id: id,
-	});
+	const body = updateTicketSchema.parse(updateData);
 
-	const result = await updateTicket(id, body);
+	const result = await updateTicket(db, id, body);
 	return result;
 };
 
 export const removeTicket = async (id: string) => {
-	await deleteTicket(id);
+	await deleteTicket(db, id);
 	return true;
 };
