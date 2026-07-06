@@ -6,7 +6,7 @@ import {
 	modifyTicket,
 	removeTicket,
 } from "../../../src/firebase/firestore/ticket.service";
-import { handleError } from "../todo/helpers/handle-error.helper";
+import { handleError } from "../helpers/handle-error.helper";
 
 const ticketsRouter = new Hono();
 

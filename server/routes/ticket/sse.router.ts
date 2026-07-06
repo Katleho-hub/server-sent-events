@@ -1,13 +1,13 @@
 import { Hono } from "hono";
 import { cors } from "hono/cors";
 import { type SSEStreamingApi, streamSSE } from "hono/streaming";
-import { modifyTodo } from "./service/todo.service.js";
+import { modifyTicket } from "../../../src/firebase/firestore/ticket.service.js";
 
 const sseRouter = new Hono();
 
 type Client =
 	| {
-			todoId: string;
+			ticketId: string;
 			stream: SSEStreamingApi;
 	  }
 	| SSEStreamingApi;
@@ -39,7 +39,7 @@ sseRouter.get("/", async (c) => {
 sseRouter.get("/:id", async (c) => {
 	return streamSSE(c, async (stream) => {
 		const id = c.req.param("id");
-		const client: Client = { stream, todoId: id };
+		const client: Client = { stream, ticketId: id };
 
 		clients.add(client);
 
@@ -60,18 +60,18 @@ sseRouter.patch("/:id", async (c) => {
 
 	clients.forEach(async (client) => {
 		try {
-			await modifyTodo(id, payload);
+			await modifyTicket(id, payload);
 
-			if ("todoId" in client) {
-				if (client.todoId !== id) return;
+			if ("ticketId" in client) {
+				if (client.ticketId !== id) return;
 
 				await client.stream.writeSSE({
-					event: "TODO_UPDATE",
+					event: "TICKET_UPDATE",
 					data: JSON.stringify(payload, null, 12),
 				});
 			} else {
 				await client.writeSSE({
-					event: "TODO_UPDATE",
+					event: "TICKET_UPDATE",
 					data: JSON.stringify(payload, null, 12),
 				});
 			}

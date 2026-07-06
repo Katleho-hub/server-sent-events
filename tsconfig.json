@@ -36,6 +36,6 @@
 		"noUnusedParameters": false,
 		"noPropertyAccessFromIndexSignature": false
 	},
-	"include": ["index.ts", "src", "server", "db", "supabase", "firebase"],
+	"include": ["index.ts", "src", "server"],
 	"exclude": ["node_modules"]
 }
