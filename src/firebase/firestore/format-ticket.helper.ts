@@ -4,7 +4,6 @@ export function formatTicket(ticket: Ticket) {
 	return {
 		status: ticket.status,
 		ticketId: ticket.ticketId,
-		ticketNumber: ticket.ticketNumber,
-		createdAt: new Date(ticket.createdAt).toLocaleTimeString(),
+		createdAt: ticket.createdAt.toDate(),
 	};
 }

@@ -11,6 +11,7 @@ import {
 import { formatTicket } from "./format-ticket.helper";
 import {
 	type NewTicketPayload,
+	type Ticket,
 	updateTicketSchema,
 } from "./types/tickets.types";
 
@@ -35,12 +36,14 @@ export const createNewTicket = async () => {
 
 export const fetchAllTickets = async () => {
 	const tickets = await getAllTickets(db);
-	return tickets;
+	return ((tickets as unknown[]) || []).map((ticket) =>
+		formatTicket(ticket as Ticket),
+	);
 };
 
 export const fetchTicketById = async (id: string) => {
-	const tickets = await getTicket(db, id);
-	return tickets.data.map(formatTicket);
+	const ticket = await getTicket(db, id);
+	return formatTicket(ticket as Ticket);
 };
 
 export const modifyTicket = async (

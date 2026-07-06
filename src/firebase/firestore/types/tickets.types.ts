@@ -1,4 +1,8 @@
+import { Timestamp } from "firebase-admin/firestore";
 import z from "zod";
+export const TimestampType = z.custom<Timestamp>(
+	(value) => value instanceof Timestamp,
+);
 
 export const ticketStatusSchema = z.enum([
 	"preparing",
@@ -9,7 +13,7 @@ export const ticketStatusSchema = z.enum([
 export const ticketSchema = z.object({
 	status: ticketStatusSchema,
 	ticketId: z.string().startsWith("ticket_").min(1, "Ticket ID is required"),
-	createdAt: z.iso.datetime(),
+	createdAt: TimestampType,
 });
 
 export const newTicketSchema = ticketSchema.pick({
@@ -17,7 +21,6 @@ export const newTicketSchema = ticketSchema.pick({
 });
 
 export const updateTicketSchema = ticketSchema.pick({
-	ticketId: true,
 	status: true,
 });
 

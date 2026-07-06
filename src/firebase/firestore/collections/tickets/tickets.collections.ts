@@ -23,7 +23,7 @@ async function createTicket(db: Firestore, data: NewTicketPayload) {
 	try {
 		const newTicket: Ticket = {
 			ticketId: data.ticketId,
-			createdAt: Timestamp.now().toDate(),
+			createdAt: Timestamp.now(),
 			status: "preparing",
 		};
 
