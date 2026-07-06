@@ -7,7 +7,7 @@ import {
 	updateDocument,
 } from "../../document.utils";
 import type {
-	NewTicket,
+	NewTicketPayload,
 	Ticket,
 	UpdateTicketPayload,
 } from "../../types/tickets.types";
@@ -15,16 +15,15 @@ import type {
 const COLLECTION = "tickets";
 
 /*------------------Create ticket----------------------*/
-async function createTicket(db: Firestore, data: NewTicket) {
-	if (data?.ticketId === undefined || data?.ticketNumber === undefined) {
-		throw new Error("Invalid data: ticketId and ticketNumber are required.");
+async function createTicket(db: Firestore, data: NewTicketPayload) {
+	if (data?.ticketId === undefined) {
+		throw new Error("Invalid data: ticketId is required.");
 	}
 
 	try {
 		const newTicket: Ticket = {
 			ticketId: data.ticketId,
-			ticketNumber: data.ticketNumber,
-			createdAt: new Date().toISOString(),
+			createdAt: Timestamp.now().toDate(),
 			status: "preparing",
 		};
 
@@ -34,7 +33,7 @@ async function createTicket(db: Firestore, data: NewTicket) {
 			newTicket.ticketId,
 			newTicket,
 		);
-		console.log(`✅ Ticket ${newTicket.ticketNumber} created successfully!`);
+		console.log(`✅ Ticket ${newTicket.ticketId} created successfully!`);
 	} catch (error) {
 		console.error("Error creating ticket:", error);
 		throw new Error("Failed to create ticket.");

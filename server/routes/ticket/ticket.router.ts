@@ -1,7 +1,9 @@
 import { Hono } from "hono";
 import {
+	createNewTicket,
 	fetchAllTickets,
 	fetchTicketById,
+	modifyTicket,
 	removeTicket,
 } from "../../../src/firebase/firestore/ticket.service";
 import { handleError } from "../todo/helpers/handle-error.helper";
@@ -12,14 +14,10 @@ ticketsRouter.onError((err, c) => {
 	return handleError(c, err);
 });
 
-// ticketsRouter.post("/", async ({ req, json }) => {
-// 	const { title } = await req.parseBody<{ title?: string }>();
-
-// 	if (!title) return json({ error: "Missing ticket Title" }, 400);
-
-// 	const formattedticket = await createNewTicket(title);
-// 	return json(formattedticket, 201);
-// });
+ticketsRouter.post("/", async ({ json }) => {
+	const formattedticket = await createNewTicket();
+	return json(formattedticket, 201);
+});
 
 ticketsRouter.get("/", async ({ json }) => {
 	console.log("1. Route hit");
@@ -34,18 +32,14 @@ ticketsRouter.get("/:id", async ({ req, json }) => {
 	return json({ tickets }, 200);
 });
 
-// ticketsRouter.patch("/:id", async ({ req, json }) => {
-// 	const ticketId = req.param("id");
-// 	const bodyData = await req.parseBody();
+ticketsRouter.patch("/:id", async ({ req, json }) => {
+	const ticketId = req.param("id");
+	const bodyData = await req.parseBody();
 
-// 	// Call the shared helper
-// 	const { status } = await modifyTicket(ticketId, bodyData);
+	const { updatedAt } = await modifyTicket(ticketId, bodyData);
 
-// 	return json(
-// 		{ message: "Successfully updated ticket" },
-// 		status as ContentfulStatusCode,
-// 	);
-// });
+	return json({ message: "Successfully updated ticket", updatedAt }, 200);
+});
 
 ticketsRouter.delete("/:id", async ({ req, json }) => {
 	const ticketId = req.param("id");

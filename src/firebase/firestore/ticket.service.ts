@@ -1,5 +1,6 @@
 import * as admin from "firebase-admin";
 import { getFirestore } from "firebase-admin/firestore";
+import { nanoid } from "nanoid";
 import {
 	createTicket,
 	deleteTicket,
@@ -23,8 +24,11 @@ const app = admin.initializeApp({
 
 export const db = getFirestore(app);
 
-export const createNewTicket = async (data?: NewTicketPayload) => {
-	if (!data) throw new Error("Missing Todo Title");
+export const createNewTicket = async () => {
+	const data: NewTicketPayload = {
+		ticketId: `ticket_${nanoid()}`,
+	};
+
 	const ticket = await createTicket(db, data);
 	return ticket;
 };

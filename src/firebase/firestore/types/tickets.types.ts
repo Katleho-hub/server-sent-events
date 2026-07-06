@@ -1,7 +1,5 @@
 import z from "zod";
 
-export type NewTicket = Omit<Ticket, "createdAt" | "status">;
-
 export const ticketStatusSchema = z.enum([
 	"preparing",
 	"next",
@@ -10,14 +8,12 @@ export const ticketStatusSchema = z.enum([
 
 export const ticketSchema = z.object({
 	status: ticketStatusSchema,
-	ticketId: z.string().min(1, "Ticket ID is required"),
-	ticketNumber: z.string().min(1, "Ticket Number is required"),
+	ticketId: z.string().startsWith("ticket_").min(1, "Ticket ID is required"),
 	createdAt: z.iso.datetime(),
 });
 
 export const newTicketSchema = ticketSchema.pick({
 	ticketId: true,
-	ticketNumber: true,
 });
 
 export const updateTicketSchema = ticketSchema.pick({
