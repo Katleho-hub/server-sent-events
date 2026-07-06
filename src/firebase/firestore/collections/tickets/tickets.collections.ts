@@ -1,3 +1,5 @@
+import * as admin from "firebase-admin";
+import { cert } from "firebase-admin";
 import { type Firestore, Timestamp } from "firebase-admin/firestore";
 import type {
 	NewTicket,
@@ -14,8 +16,16 @@ import {
 
 const COLLECTION = "tickets";
 
-/* CREATE */
-export async function createTicket(db: Firestore, data: NewTicketData) {
+admin.initializeApp({
+	credential: cert({
+		projectId: process.env.PROJECT_ID,
+		clientEmail: process.env.CLIENT_EMAIL,
+		privateKey: process.env.PRIVATE_KEY,
+	}),
+});
+
+/*------------------Create ticket----------------------*/
+async function createTicket(db: Firestore, data: NewTicketData) {
 	if (data?.ticketId === undefined || data?.ticketNumber === undefined) {
 		throw new Error("Invalid data: ticketId and ticketNumber are required.");
 	}
@@ -41,7 +51,7 @@ export async function createTicket(db: Firestore, data: NewTicketData) {
 	}
 }
 
-/* READ */
+/*------------------Read ticket----------------------*/
 async function getAllTickets(db: Firestore) {
 	try {
 		return await getAllCollectionDocuments(
@@ -56,7 +66,7 @@ async function getAllTickets(db: Firestore) {
 	}
 }
 
-export async function getTicket(db: Firestore, documentID: string) {
+async function getTicket(db: Firestore, documentID: string) {
 	try {
 		const response = await getDocument(db, COLLECTION, documentID);
 		if (!response) {
@@ -69,12 +79,8 @@ export async function getTicket(db: Firestore, documentID: string) {
 	}
 }
 
-export async function getTickets(db: Firestore) {
-	return getAllTickets(db); // No need to try/catch here if getAllTickets already handles it
-}
-
-/* UPDATE */
-export async function updateTicket(
+/*------------------Update ticket----------------------*/
+async function updateTicket(
 	db: Firestore,
 	documentID: string,
 	data: Partial<Ticket>,
@@ -93,8 +99,8 @@ export async function updateTicket(
 	}
 }
 
-/* DELETE */
-export async function deleteTicket(db: Firestore, documentID: string) {
+/*------------------Delete ticket----------------------*/
+async function deleteTicket(db: Firestore, documentID: string) {
 	try {
 		const response = await deleteDocument(db, COLLECTION, documentID);
 		return { writeTime: response.writeTime, success: true };
@@ -103,3 +109,5 @@ export async function deleteTicket(db: Firestore, documentID: string) {
 		throw new Error("Failed to delete ticket.");
 	}
 }
+
+export { createTicket, deleteTicket, getAllTickets, getTicket, updateTicket };
